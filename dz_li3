@@ -1,0 +1,47 @@
+Урок 7. Управление пакетами и репозиториями.Основы сетевой безопасности
+1. Подключить репозиторий с nginx любым удобным способом, установить nginx и потом удалить nginx, используя утилиту dpkg.
+Узнаю версию Ubuntu:
+
+duckluckbreakout@ubuntuserver:~$ lsb_release -a
+Модули LSB недоступны.
+Идентификатор дистрибьютора: Ubuntu
+Описание: Ubuntu 20.04 LTS
+Выпуск: 20.04
+Кодовое название: focal
+Подключение репозитория:
+
+root@ubuntuserver:/etc/apt/sources.list.d # echo "деб http://nginx.org/packages/ubuntu focus nginx" > nginx.list
+root@ubuntuserver:/etc/apt/sources.list .d# curl -fsSL https://nginx.org/keys/nginx_signing.key | добавление apt-ключа в sudo -
+ОК
+root@ubuntuserver:/etc/apt/sources.list.d # обновление sudo apt
+root@ubuntuserver:/etc/apt/sources.list.d # sudo apt устанавливает nginx -y
+2. Установить пакет на свой выбор, используя snap.
+duckluckbreakout@ubuntuserver:/etc/apt/sources.list.d $ установлена sudo snap install robomongo
+установлена robomongo 0.9.0-rc9 от Francesco Banconi (frankban)
+3. Настроить iptables: разрешить подключения только на 22-й и 80-й порты.
+duckluckbreakout@ubuntuserver:/etc/apt/sources.list.d $ удаление ВВОДА в sudo iptables -P
+Тут я слишком поздно осознал последствия данной команды, из-за чего пришлось исправлять напрямую в терминале виртуалки:
+
+root@ubuntuserver:~# iptables -A INPUT -p tcp --dport 22 -j ПРИНИМАЕТ
+Вернув доступ по ssh открыл порт 80:
+
+duckluckbreakout@ubuntuserver: ~$ iptables sudo -A INPUT -p tcp --dport 80 -j ПРИНИМАЕТ
+sudo: не удается разрешить ubuntuserver хоста: временный сбой в разрешении имени
+[sudo] пароль для duckluckbreakout: 
+duckluckbreakout@ubuntuserver: ~$ iptables-сохранить
+не удалось в списке имена таблиц в /proc/net/ip_tables_names: В разрешении отказано
+duckluckbreakout@ubuntuserver:~$ sudo iptables-save
+sudo: не удается разрешить сервер ubuntuser хоста: временный сбой в разрешении имен
+# Сгенерирован iptables-save версии v1.8.4 в ср. 12 авг. 17:42:25 2020
+* фильтр
+: УДАЛЕНИЕ ВВОДА [9: 628]
+: ПРИЕМ ПЕРЕАДРЕСАЦИИ [0:0]
+: ПРИЕМ ВЫВОДА [51:4876]
+-ВВОД -p tcp -m tcp --dport 22 -j ACCEPT
+-Ввод -p tcp -m tcp --dport 80 -j ACCEPT 
+СОВЕРШИТЬ
+# Завершено ср. 12 авг. 17:42:25 2020
+Исправление появившегося sudo: unable to resolve host ubuntuserver: Temporary failure in name resolution:
+
+duckluckbreakout@ubuntuserver:~ $ sudo vim /etc/hosts
+sudo: не удается разрешить сервер ubuntuser: временный сбой в разрешении имен
